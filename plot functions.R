@@ -1,16 +1,17 @@
 #------------------------------------------------------------------------------------------------------------------------------------------------------------
-#Function odds_ev_scatter_plot gives a scatter plot of expected profit of wynnbet bonus bets bet across different odds
+#Gives a scatter plot of expected profit of wynnbet bonus bets bet across different odds
 #this gives a good visual indication of the optional +odds to play free bets at by viewing the EV of each of the 20+ odds
 
 #inputs:
-  #simulations_per_odd
+  #simulations_per_odd - the number of monte carlo simulations we want to make per odd we loop through (-150 to 2000ish)
 
 #outputs: 
-#my_return - the total $$ return of the simulated wynnbet promotion run (can be positive or negative)
+  #saves a file ev_scatter_plot_by_odd.png of the plot 
 
 #notes on improvements and additions to function
-#how can we generalize this function to run multiple platforms' promotional offers?
-
+  #how can we generalize this function to run multiple platforms' promotional offers?
+  #add a progressbar, instead of printing odds simululation completion to the terminal like a n00b
+  #outsource data generation to a new function to seperate data generation and plotting
 
 odds_ev_scatter_plot <- function(simulations_per_odd=1000){
   
@@ -45,7 +46,7 @@ odds_ev_scatter_plot <- function(simulations_per_odd=1000){
     }
     
   #plot the data
-  ggplot(e_profit_df, aes(x=odds,y=value,color=variable)) +
+  ev_scatter_plot <- ggplot(e_profit_df, aes(x=odds,y=value,color=variable)) +
     
     #title
     ggtitle(paste("Distribution of Expected Profit\nWynnbet Promo Bonus Bets")) +
@@ -62,7 +63,6 @@ odds_ev_scatter_plot <- function(simulations_per_odd=1000){
     geom_point(aes(y = profit_4_bet,col = "4 bet, 1 converted")) +
     geom_point(aes(y = profit_5_bet,col = "5 bet, 0 converted")) +
 
-    
     #x limit, label, breaks, size
     xlim(min(e_profit_df$odds), max(e_profit_df$odds)) +
     xlab("Bonus Bet Odds") +
@@ -73,19 +73,21 @@ odds_ev_scatter_plot <- function(simulations_per_odd=1000){
     
     #floor lines and labels for each strategy
     geom_hline(aes(yintercept=1050),col = "gray41", linetype="dashed", size=.8,alpha=.9) +
-      annotate(geom = "text", label = "\nMin profit (0 bet, 5 converted): $1050",x = 1550, y = 1050, hjust="left",color = "gray41", size = 3) +
+      annotate(geom = "text", label = " \nMin profit (0 bet, 5 converted): $1050",x = 1550, y = 1050, hjust="left",color = "gray41", size = 3) +
     geom_hline(aes(yintercept=840),col = "gray41", linetype="dashed", size=.8,alpha=.9) +
-      annotate(geom = "text", label = "Min profit (1 bet, 4 converted): $840\n",x = 1550, y = 840, hjust="left",color = "gray41", size = 3) +
+      annotate(geom = "text", label = "Min profit (1 bet, 4 converted): $840\n ",x = 1550, y = 840, hjust="left",color = "gray41", size = 3) +
     geom_hline(aes(yintercept=630),col = "gray41", linetype="dashed", size=.8,alpha=.9) +
-      annotate(geom = "text", label = "Min profit (2 bet, 3 converted): $630\n",x = 1550, y = 630, hjust="left",color = "gray41", size = 3) +
+      annotate(geom = "text", label = "Min profit (2 bet, 3 converted): $630\n ",x = 1550, y = 630, hjust="left",color = "gray41", size = 3) +
     geom_hline(aes(yintercept=420),col = "gray41", linetype="dashed", size=.8,alpha=.9) +
-      annotate(geom = "text", label = "Min profit (3 bet, 2 converted): $420\n",x = 1550, y = 420, hjust="left",color = "gray41", size = 3) +
+      annotate(geom = "text", label = "Min profit (3 bet, 2 converted): $420\n ",x = 1550, y = 420, hjust="left",color = "gray41", size = 3) +
     geom_hline(aes(yintercept=210),col = "gray41", linetype="dashed", size=.8,alpha=.9) +
-      annotate(geom = "text", label = "Min profit (4 bet, 1 converted): $210\n",x = 1550, y = 210, hjust="left",color = "gray41", size = 3) +
+      annotate(geom = "text", label = "Min profit (4 bet, 1 converted): $210\n ",x = 1550, y = 210, hjust="left",color = "gray41", size = 3) +
     geom_hline(aes(yintercept=0),col = "gray41", linetype="dashed", size=.8,alpha=.9) +
-      annotate(geom = "text", label = "Min profit (5 bet, 0 converted): $0\n",x = 1550, y = 0, hjust="left",color = "gray41", size = 3)
+      annotate(geom = "text", label = "Min profit (5 bet, 0 converted): $0\n ",x = 1550, y = 0, hjust="left",color = "gray41", size = 3)
     
-    
+  #save png of the scatter plot
+  ggsave(file=paste("ev_scatter_plot_by_odd.png"), ev_scatter_plot,width = 12,height=7,units="in")
+  
     
 }############################################################################################################################################################
 #-------------------------------------------------------------------------------------------------------------------------------------------------
