@@ -1,0 +1,9 @@
+strategy,promo,wager_stake,wager_stake_odds,hedge_stake,hedge_stake_odds,bonus_stake,bonus_bets,bonus_converts,bonus_stake_odds,notes
+static0,wynnbet,750,-150,0,130,300,5,0,-150,implied odds 
+static0.1,wynnbet,750,-150,0,130,300,5,0,-150,no vig odds
+static0.2,wynnbet,750,-150,0,130,300,5,0,-150,no vig odds
+static1,wynnbet,750,-150,543.48,130,300,5,0,-150,hedge
+static2,wynnbet,750,-150,500,150,300,5,0,-150,arb
+static3,wynnbet,750,-150,500,150,300,4,1,-150,
+static4,wynnbet,750,-150,500,150,300,5,0,400,YOLO free bets
+static5,wynnbet,750,-150,500,150,300,3,2,400,YOLO free bets
