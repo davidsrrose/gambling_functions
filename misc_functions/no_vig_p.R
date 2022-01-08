@@ -16,9 +16,10 @@ no_vig_p <- function(odds_1,odds_2){
   
     #calculate implied odds of odds1
     p_1 <- implied_p(odds_1)
+    
     #calculate implied odds of odds2
     p_2 <- implied_p(odds_2)
-    #no-vig return for two odds given
+    
+    #return no-vig probability of odds1
     return(p_1/(p_1 + p_2))
-
 }
