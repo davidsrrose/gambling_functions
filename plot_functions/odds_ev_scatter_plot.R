@@ -60,7 +60,7 @@ odds_ev_scatter_plot <- function(n = 1000) {
   # loop and fill profit data in e_profit_df
   for (i in 1:(odds_looped)) {
     for (bonus_bets in 0:5) {
-      e_profit_df[i, bonus_bets + 2] <- wynnbet_bonus_only(
+      e_profit_df[i, bonus_bets + 2] <- wynnbet_bonus_only_profit(
         bonus_odds = e_profit_df$odds[i],
         bonus_bets = bonus_bets, n = n
       )
@@ -110,14 +110,15 @@ odds_ev_scatter_plot <- function(n = 1000) {
     ylim(0, max(e_profit_df[, 2:7])) +
     ylab("Expected Profit ($)") +
 
-# LOOP THIS
+    # LOOP THIS
     # floor lines and labels for each strategy
     geom_hline(
       aes(yintercept = 1050),
       col = "gray41",
       linetype = "dashed",
       size = .8,
-      alpha = .9) +
+      alpha = .9
+    ) +
     annotate(
       geom = "text",
       label = " \nMin profit (0 bet, 5 converted): $1050",
@@ -125,7 +126,8 @@ odds_ev_scatter_plot <- function(n = 1000) {
       y = 1050,
       hjust = "left",
       color = "gray41",
-      size = 3) +
+      size = 3
+    ) +
     geom_hline(aes(yintercept = 840), col = "gray41", linetype = "dashed", size = .8, alpha = .9) +
     annotate(geom = "text", label = "Min profit (1 bet, 4 converted): $840\n ", x = 1550, y = 840, hjust = "left", color = "gray41", size = 3) +
     geom_hline(aes(yintercept = 630), col = "gray41", linetype = "dashed", size = .8, alpha = .9) +
