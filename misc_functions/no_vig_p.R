@@ -12,7 +12,6 @@
 # notes on updates and improvements
 
 #-------------------------------------------------------------------------------
-
 no_vig_p <- function(odds_1,
                      odds_2) {
 

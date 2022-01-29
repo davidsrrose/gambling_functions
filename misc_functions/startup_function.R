@@ -8,7 +8,6 @@
 # none
 
 #-------------------------------------------------------------------------------
-
 startup_function <- function() {
 
   # create vector of CRAN packages to install
