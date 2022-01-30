@@ -16,7 +16,6 @@
 # outsource data generation to a new function to separate data generation and plotting
 #-------------------------------------------------------------------------------
 odds_ev_scatter_plot <- function(n = 1000) {
-
   # initialize variables
   # number of odds we want to loop across
   odds_looped <- 50
@@ -27,7 +26,15 @@ odds_ev_scatter_plot <- function(n = 1000) {
   # total profit per odd variable
   total_profit_per_odd <- 0
 
-  # matrix of EV by bonus bet odds
+  # column names for e_profit_df
+  # colnames vector
+  e_profit_df_colnames_vector <- rep(0, 7)
+  e_profit_df_colnames_vector[1] <- "odds"
+  for (i in 0:5) {
+    e_profit_df_colnames_vector[i + 2] <- gsub(" ", "", paste("profit_", i, "_bet"))
+  }
+
+  # initialize dataframe of EV by bonus bet odds
   e_profit_df <- data.frame(
     matrix(
       0,
@@ -35,13 +42,8 @@ odds_ev_scatter_plot <- function(n = 1000) {
       ncol = 7
     )
   )
-
-  # column names for e_profit_df
-  colnames(e_profit_df[1]) <- "odds"
-  for (i in 0:5) {
-    colnames(e_profit_df[i + 2]) <- paste("profit_", i, "_bet")
-  }
-  print(e_profit_df)
+  # name e_profit_df columns
+  colnames(e_profit_df) <- e_profit_df_colnames_vector
 
   # set first values of the odds
   e_profit_df$odds[1:4] <- c(
@@ -56,22 +58,17 @@ odds_ev_scatter_plot <- function(n = 1000) {
   }
 
   # loop and fill profit data in e_profit_df
-  for (i in 1:(odds_looped)) {
+  for (i in 1:odds_looped) {
     for (bonus_bets in 0:5) {
       e_profit_df[i, bonus_bets + 2] <- wynnbet_bonus_only_profit(
         bonus_odds = e_profit_df$odds[i],
         bonus_bets = bonus_bets, n = n
       )
     }
-    print(
-      paste(
-        "odds completed",
-        e_profit_df$odds[i]
-      )
-    )
+    # print(paste("odds completed",e_profit_df$odds[i]))
   }
 
-  # plot the data
+  # create the plot
   ev_scatter_plot <- ggplot(
     e_profit_df,
     aes(
@@ -80,8 +77,6 @@ odds_ev_scatter_plot <- function(n = 1000) {
       color = variable
     )
   ) +
-
-    # title
     ggtitle(paste("Expected Profit - 6 levels of bonus convert vs bet")) +
     theme(plot.title = element_text(hjust = 0.5)) +
 
@@ -91,11 +86,7 @@ odds_ev_scatter_plot <- function(n = 1000) {
       option = "magma"
     ) +
 
-    # plot all 6 y variable sets
-    bet_convert_vector <- matrix(cbind(c(0, 1, 2, 3, 4, 5), c(5, 4, 3, 2, 1, 0)))
-  print(bet_convert_vector)
-  # LOOP THIS
-  geom_point(aes(y = profit_0_bet, col = "0 bet, 5 converted")) +
+    geom_point(aes(y = profit_0_bet, col = "0 bet, 5 converted")) +
     geom_point(aes(y = profit_1_bet, col = "1 bet, 4 converted")) +
     geom_point(aes(y = profit_2_bet, col = "2 bet, 3 converted")) +
     geom_point(aes(y = profit_3_bet, col = "3 bet, 2 converted")) +
@@ -110,24 +101,8 @@ odds_ev_scatter_plot <- function(n = 1000) {
     ylim(0, max(e_profit_df[, 2:7])) +
     ylab("Expected Profit ($)") +
 
-    # LOOP THIS
-    # floor lines and labels for each strategy
-    geom_hline(
-      aes(yintercept = 1050),
-      col = "gray41",
-      linetype = "dashed",
-      size = .8,
-      alpha = .9
-    ) +
-    annotate(
-      geom = "text",
-      label = " \nMin profit (0 bet, 5 converted): $1050",
-      x = 1550,
-      y = 1050,
-      hjust = "left",
-      color = "gray41",
-      size = 3
-    ) +
+    geom_hline(aes(yintercept = 1050),col = "gray41",linetype = "dashed",size = .8, alpha = .9) +
+    annotate(geom = "text",label = " \nMin profit (0 bet, 5 converted): $1050",x = 1550,y = 1050,hjust = "left",color = "gray41",size = 3) +
     geom_hline(aes(yintercept = 840), col = "gray41", linetype = "dashed", size = .8, alpha = .9) +
     annotate(geom = "text", label = "Min profit (1 bet, 4 converted): $840\n ", x = 1550, y = 840, hjust = "left", color = "gray41", size = 3) +
     geom_hline(aes(yintercept = 630), col = "gray41", linetype = "dashed", size = .8, alpha = .9) +
@@ -140,16 +115,7 @@ odds_ev_scatter_plot <- function(n = 1000) {
     annotate(geom = "text", label = "Min profit (5 bet, 0 converted): $0\n ", x = 1550, y = 0, hjust = "left", color = "gray41", size = 3)
 
   # filename with spaces removed
-  filename <- gsub(
-    " ",
-    "",
-    paste(
-      "ev_scatter_plot_by_odd_n_",
-      n,
-      ".png"
-    )
-  )
-
+  filename <- gsub(" ", "", paste("ev_scatter_plot_by_odd_n_", n, ".png"))
   # save png file
   ggsave(
     file = filename,
@@ -159,4 +125,5 @@ odds_ev_scatter_plot <- function(n = 1000) {
     height = 7,
     units = "in"
   )
+  ev_scatter_plot
 }
