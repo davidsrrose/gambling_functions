@@ -9,19 +9,11 @@
 # notes on improvements and additions to function
 
 #-------------------------------------------------------------------------------
-ev_bankroll_df_generator <- function(bets = 1000,
-                                     bankroll_start = 1000,
-                                     kelly_multiplier = 1) {
+ev_bankroll_df_generator <- function(bets = 100, bankroll_start = 1000, kelly_multiplier = 1) {
 
   # initialize variables
   # bankroll dataframe
-  ev_bankroll_df <<-
-    data.frame(
-      matrix(
-        ncol = 6,
-        nrow = bets
-      )
-    )
+  ev_bankroll_df <<- data.frame(matrix(0, ncol = 6, nrow = bets))
 
   # bankroll dataframe
   colnames(ev_bankroll_df) <<-
@@ -81,5 +73,7 @@ ev_bankroll_df_generator <- function(bets = 1000,
         ev_bankroll_df$post_bet_bankroll[bet_row]
     }
   }
+  # print bankroll
+  print(ev_bankroll_df)
   return(ev_bankroll_df$post_bet_bankroll[bets])
 }
