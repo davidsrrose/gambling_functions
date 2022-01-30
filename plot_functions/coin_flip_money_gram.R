@@ -23,11 +23,20 @@
 coin_flip_money_gram <- function(n = 1000) {
   # initialize variables
   # profit vector
+<<<<<<< HEAD
   profit_vector <- c(
     0,
     nrow = n,
     ncol = 1
   )
+=======
+  profit_vector <-
+    c(
+      0,
+      nrow = n,
+      ncol = 1
+    )
+>>>>>>> drying_odds_ev_scatter_plot
   # simulation n attempts of strategy and record profits to profit_vector
   for (i in 1:n) {
     profit_vector[i] <- coinflip_casino_promo_return()
@@ -53,7 +62,12 @@ coin_flip_money_gram <- function(n = 1000) {
   # on of the profit is positive or negative
   profit_df$pos <- profit_df$x > 0
 
+<<<<<<< HEAD
   # add column for left or right justification. Set to left, then switch to right if next bar is bigger
+=======
+  # add column for left or right justification.
+  # set to left, then switch to right if next bar is bigger
+>>>>>>> drying_odds_ev_scatter_plot
   profit_df$bar_label_justification <- "left"
   if (nrow(profit_df) > 1) { # only do it if there's more than 1 bar
     for (i in 1:(nrow(profit_df) - 1)) {
@@ -64,6 +78,7 @@ coin_flip_money_gram <- function(n = 1000) {
   }
 
   # update column names
+<<<<<<< HEAD
   colnames(profit_df) <- c(
     "profit",
     "frequency",
@@ -71,6 +86,16 @@ coin_flip_money_gram <- function(n = 1000) {
     "positive",
     "bar_label_justification"
   )
+=======
+  colnames(profit_df) <-
+    c(
+      "profit",
+      "frequency",
+      "probability",
+      "positive",
+      "bar_label_justification"
+    )
+>>>>>>> drying_odds_ev_scatter_plot
 
   # calculate variables needed for plot
   average_profit <- round(mean(profit_vector), 2)
@@ -111,6 +136,10 @@ coin_flip_money_gram <- function(n = 1000) {
 
   # add column for x value of the bar label
   profit_df$bar_label_x <- profit_df$profit - bar_width / 2 + 10
+<<<<<<< HEAD
+=======
+  #WHAT IS THIS DOING?
+>>>>>>> drying_odds_ev_scatter_plot
   profit_df$bar_label_x[which(profit_df$bar_label_justification == "right")] <-
     profit_df$profit[which(profit_df$bar_label_justification == "right")] +
     bar_width / 2 - 10
@@ -121,6 +150,7 @@ coin_flip_money_gram <- function(n = 1000) {
     profit_df$probability[which.min(abs(average_profit - profit_df$profit))]
 
   # plot it(dataframe, aestices x,y, fill based on positive or negative profit)
+<<<<<<< HEAD
   distribution_plot <- ggplot(
     profit_df,
     aes(
@@ -130,6 +160,18 @@ coin_flip_money_gram <- function(n = 1000) {
       pattern = positive
     )
   ) +
+=======
+  distribution_plot <-
+    ggplot(
+      profit_df,
+      aes(
+        x = profit,
+        y = probability,
+        fill = positive,
+        pattern = positive
+      )
+    ) +
+>>>>>>> drying_odds_ev_scatter_plot
     # make it a bar chart of the options
     geom_bar_pattern(
       stat = "identity", width = bar_width, alpha = .55, color = "black",
@@ -153,10 +195,20 @@ coin_flip_money_gram <- function(n = 1000) {
 
     # title
     ggtitle(paste("Con Flip Promo Distribution of Expected Profit")) +
+<<<<<<< HEAD
     theme(plot.title = element_text(
       hjust = 0.5,
       size = 20
     )) +
+=======
+    # title theme settings
+    theme(
+      plot.title = element_text(
+        hjust = 0.5,
+        size = 20
+      )
+    ) +
+>>>>>>> drying_odds_ev_scatter_plot
 
     # add vertical mean line bottom (around vertical mean line bar label)
     # add vertical mean line top (around vertical mean line bar label)
@@ -240,6 +292,7 @@ coin_flip_money_gram <- function(n = 1000) {
       )
     )
   # filename with spaces removed
+<<<<<<< HEAD
   filename <- gsub(
     " ",
     "",
@@ -249,6 +302,18 @@ coin_flip_money_gram <- function(n = 1000) {
       "_flips.png"
     )
   )
+=======
+  filename <-
+    gsub(
+      " ",
+      "",
+      paste(
+        "coin_flip_money_gram_n_",
+        n,
+        "_flips.png"
+      )
+    )
+>>>>>>> drying_odds_ev_scatter_plot
 
   # save png file
   ggsave(

@@ -12,10 +12,16 @@
 # notes on updates and improvements
 
 #-------------------------------------------------------------------------------
+<<<<<<< HEAD
 
 no_vig_p <- function(odds_1,
                      odds_2) {
 
+=======
+no_vig_p <- function(odds_1,
+                     odds_2) {
+
+>>>>>>> drying_odds_ev_scatter_plot
   # calculate implied odds of odds1
   p_1 <- implied_p(odds_1)
 
