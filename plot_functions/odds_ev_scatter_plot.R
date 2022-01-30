@@ -35,15 +35,13 @@ odds_ev_scatter_plot <- function(n = 1000) {
       ncol = 7
     )
   )
-  colnames(e_profit_df) <- c(
-    "odds",
-    "profit_0_bet",
-    "profit_1_bet",
-    "profit_2_bet",
-    "profit_3_bet",
-    "profit_4_bet",
-    "profit_5_bet"
-  )
+
+  # column names for e_profit_df
+  colnames(e_profit_df[1]) <- "odds"
+  for (i in 0:5) {
+    colnames(e_profit_df[i + 2]) <- paste("profit_", i, "_bet")
+  }
+  print(e_profit_df)
 
   # set first values of the odds
   e_profit_df$odds[1:4] <- c(
@@ -94,8 +92,10 @@ odds_ev_scatter_plot <- function(n = 1000) {
     ) +
 
     # plot all 6 y variable sets
-    # LOOP THIS
-    geom_point(aes(y = profit_0_bet, col = "0 bet, 5 converted")) +
+    bet_convert_vector <- matrix(cbind(c(0, 1, 2, 3, 4, 5), c(5, 4, 3, 2, 1, 0)))
+  print(bet_convert_vector)
+  # LOOP THIS
+  geom_point(aes(y = profit_0_bet, col = "0 bet, 5 converted")) +
     geom_point(aes(y = profit_1_bet, col = "1 bet, 4 converted")) +
     geom_point(aes(y = profit_2_bet, col = "2 bet, 3 converted")) +
     geom_point(aes(y = profit_3_bet, col = "3 bet, 2 converted")) +
