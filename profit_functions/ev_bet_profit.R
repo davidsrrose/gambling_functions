@@ -25,7 +25,6 @@ ev_bet_profit <- function(oddsjam_odd_1 = 131,
   # avg profit
   avg_profit <- 0
   # fair win probability
-<<<<<<< HEAD
   fair_win_p <- no_vig_p(
     oddsjam_odd_1,
     oddsjam_odd_2
@@ -35,7 +34,6 @@ ev_bet_profit <- function(oddsjam_odd_1 = 131,
   if (runif(1) < fair_win_p) {
     # win the bonus bet. Note that we only get the payout, 
       # no stake back w/free bet play
-=======
   fair_win_p <-
     no_vig_p(
       oddsjam_odd_1,
@@ -46,7 +44,6 @@ ev_bet_profit <- function(oddsjam_odd_1 = 131,
   if (runif(1) < fair_win_p) {
     # win the bonus bet. Note that we only get the payout,
     # no stake back w/free bet play
->>>>>>> drying_odds_ev_scatter_plot
     profit <- stake * payout_fraction(bad_odd)
     # print(paste("bonus win",profit))
   } else {

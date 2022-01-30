@@ -8,10 +8,7 @@
 # none
 
 #-------------------------------------------------------------------------------
-<<<<<<< HEAD
 
-=======
->>>>>>> drying_odds_ev_scatter_plot
 startup_function <- function() {
 
   # create vector of CRAN packages to install

@@ -8,10 +8,7 @@
 # none
 
 #-------------------------------------------------------------------------------
-<<<<<<< HEAD
 
-=======
->>>>>>> drying_odds_ev_scatter_plot
 kelly_fraction <- function(odds = 400,
                            fair_win_p = .25,
                            kelly_multiplier = 1) {
