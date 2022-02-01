@@ -16,6 +16,8 @@ ev_bankroll_df_generator <- function(bets = 1000,
   # initialize variables
   # bankroll dataframe
   ev_bankroll_df <<- data.frame(matrix(ncol = 6, nrow = bets))
+  #ev bet parameters
+  ev_bet_parameters <-c(0,ncol=2)
 
   # bankroll dataframe
   colnames(ev_bankroll_df) <<- c(
@@ -30,17 +32,16 @@ ev_bankroll_df_generator <- function(bets = 1000,
   # set bankroll at first bet
   ev_bankroll_df$bankroll[1] <<- bankroll_start
 
-  # loop through all bets
+  # loop through number of bets specified
   for (bet_row in 1:bets) {
-    # generate parameters
+    # generate parameters for the bet
+    ev_bet_parameters <- ev_bet_generator()
+    
     # bet odds
-    ev_bankroll_df$odds <<- ev_bets$ev_odd[bet_row]
+    ev_bankroll_df$odds[bet_row] <<- ev_bet_parameters[1]
 
-    # fair win
-    ev_bankroll_df$fair_win_p <<- no_vig_p(
-      ev_bets$oddsj_ev_odd[bet_row],
-      ev_bets$oddsj_ev_odd_opp[bet_row]
-    )
+    # bet fair win probability
+    ev_bankroll_df$fair_win_p[bet_row] <<- ev_bet_parameters[2]
 
     # bet stake
     ev_bankroll_df$stake[bet_row] <<-
@@ -50,6 +51,12 @@ ev_bankroll_df_generator <- function(bets = 1000,
         fair_win_p = ev_bankroll_df$fair_win_p[bet_row],
         kelly_multiplier = kelly_multiplier
       )
+    
+    #print(paste("odds",ev_bankroll_df$odds[bet_row]))
+    #print(paste("fair win p",ev_bankroll_df$fair_win_p[bet_row]))
+    #print(paste("kelly multiplier",kelly_multiplier))
+    #print(paste("stake",ev_bankroll_df$stake[bet_row]))
+                
 
     # if kelly fraction is negative, that means dont do the bet.
     # this shouldnt happen w/ just EV bets but lets put a message her
@@ -75,11 +82,9 @@ ev_bankroll_df_generator <- function(bets = 1000,
 
     # set next row bankroll start - except for last row (bets)
     if (bet_row < bets) {
-      ev_bankroll_df$bankroll[bet_row + 1] <<-
-        ev_bankroll_df$post_bet_bankroll[bet_row]
+      ev_bankroll_df$bankroll[bet_row + 1] <<- ev_bankroll_df$post_bet_bankroll[bet_row]
     }
   }
-  # print bankroll
-  print(ev_bankroll_df)
-  return(ev_bankroll_df$post_bet_bankroll[bets])
+
+  return(ev_bankroll_df)
 }
