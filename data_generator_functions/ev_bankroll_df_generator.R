@@ -32,6 +32,9 @@ ev_bankroll_df_generator <- function(bets = 1000,
 
   # loop through number of bets specified
   for (bet_row in 1:bets) {
+    # check if we are broke
+
+
     # generate parameters for the bet
     ev_bet_parameters <- ev_bet_generator()
 
@@ -49,15 +52,29 @@ ev_bankroll_df_generator <- function(bets = 1000,
           fair_win_p = ev_bankroll_df$fair_win_p[bet_row],
           kelly_multiplier = kelly_multiplier
         )
+    # calculated stake for bet is larger than current bankroll, adjust down
+    if (ev_bankroll_df$stake[bet_row] > ev_bankroll_df$bankroll[bet_row]) {
+      ev_bankroll_df$stake[bet_row] <- ev_bankroll_df$bankroll[bet_row]
+    }
 
-    # print(paste("odds",ev_bankroll_df$odds[bet_row]))
-    # print(paste("fair win p",ev_bankroll_df$fair_win_p[bet_row]))
-    # print(paste("kelly multiplier",kelly_multiplier))
-    # print(paste("stake",ev_bankroll_df$stake[bet_row]))
+    # stake is negative, we are out of money
+    if (ev_bankroll_df$bankroll[bet_row] <= 0) {
+      print("ran out of money")
+      # fill the rest of the dataframe with zeros
+      ev_bankroll_df[bet_row:bets, ] <- 0
+      # then exit
+      return(ev_bankroll_df)
+      stop()
+    }
+
+    # print(paste("odds", ev_bankroll_df$odds[bet_row]))
+    # print(paste("fair win p", ev_bankroll_df$fair_win_p[bet_row]))
+    # print(paste("kelly multiplier", kelly_multiplier))
+    # print(paste("stake", ev_bankroll_df$stake[bet_row]))
 
 
     # if kelly fraction is negative, that means dont do the bet.
-    # this shouldnt happen w/ just EV bets but lets put a message her
+    # this shouldnt happen w/ just EV bets but lets put a message here
     if (ev_bankroll_df$stake[bet_row] < 0) {
       print("WARNING negative kelly fraction?? WHAT ARE YOU DOING WRONG")
     }
