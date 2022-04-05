@@ -36,7 +36,7 @@ coin_flip_money_gram <- function(n = 1000) {
     )
   # simulation n attempts of strategy and record profits to profit_vector
   for (i in 1:n) {
-    profit_vector[i] <- coinflip_casino_promo_return()
+    profit_vector[i] <- coinflip_casino_profit()
   }
 
   # because rounding errors were making the graphs bad
@@ -127,7 +127,7 @@ coin_flip_money_gram <- function(n = 1000) {
 
   # add column for x value of the bar label
   profit_df$bar_label_x <- profit_df$profit - bar_width / 2 + 10
-  #WHAT IS THIS DOING?
+  # WHAT IS THIS DOING?
   profit_df$bar_label_x[which(profit_df$bar_label_justification == "right")] <-
     profit_df$profit[which(profit_df$bar_label_justification == "right")] +
     bar_width / 2 - 10
@@ -147,16 +147,6 @@ coin_flip_money_gram <- function(n = 1000) {
       pattern = positive
     )
   ) +
-  distribution_plot <-
-    ggplot(
-      profit_df,
-      aes(
-        x = profit,
-        y = probability,
-        fill = positive,
-        pattern = positive
-      )
-    ) +
     # make it a bar chart of the options
     geom_bar_pattern(
       stat = "identity", width = bar_width, alpha = .55, color = "black",
@@ -179,11 +169,7 @@ coin_flip_money_gram <- function(n = 1000) {
     scale_pattern_manual(values = fill_patterns) +
 
     # title
-    ggtitle(paste("Con Flip Promo Distribution of Expected Profit")) +
-    theme(plot.title = element_text(
-      hjust = 0.5,
-      size = 20
-    )) +
+    ggtitle(paste("Coin Flip Promo Distribution of Expected Profit")) +
     # title theme settings
     theme(
       plot.title = element_text(
@@ -234,7 +220,6 @@ coin_flip_money_gram <- function(n = 1000) {
     ylab("Probability") +
 
     # stats annotation labels
-
     annotate(
       geom = "text",
       x = x_axis_max * .8,
@@ -273,16 +258,7 @@ coin_flip_money_gram <- function(n = 1000) {
         "\n| ", p_loss
       )
     )
-  # filename with spaces removed
-  filename <- gsub(
-    " ",
-    "",
-    paste(
-      "coin_flip_money_gram_n_",
-      n,
-      "_flips.png"
-    )
-  )
+
   filename <-
     gsub(
       " ",
