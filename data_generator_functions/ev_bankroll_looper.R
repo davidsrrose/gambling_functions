@@ -30,10 +30,15 @@ ev_bankroll_looper <- function(simulations = 1000,
   ev_bankroll_simulations_df <<- data.frame(
     matrix(
       0,
-      ncol = simulations,
+      ncol = simulations + 1,
       nrow = bets_per_simulation
     )
   )
+  # add and name id column
+  ev_bankroll_simulations_df[1] <<- seq.int(nrow(ev_bankroll_simulations_df))
+  # name column 1
+  colnames(ev_bankroll_simulations_df)[1] <<- c("bet_id")
+
 
   # temporary loop dataframe for each bankroll df generated in loop
   # 6 columns based on output of ev_bankroll_df_generator
@@ -49,7 +54,9 @@ ev_bankroll_looper <- function(simulations = 1000,
       kelly_multiplier = kelly_multiplier
     )
     # store first column bankroll growth
-    ev_bankroll_simulations_df[, i] <<- ev_bankroll_df$bankroll
+    ev_bankroll_simulations_df[, i + 1] <<- ev_bankroll_df$bankroll
+    # name column
+    colnames(ev_bankroll_simulations_df)[i + 1] <<- paste("sim_", i)
 
     # update progress bar
     setTxtProgressBar(progress_bar, value = i)
