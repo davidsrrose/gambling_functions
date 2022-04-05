@@ -57,12 +57,7 @@ odds_ev_scatter_plot <- function(n = 1000) {
     e_profit_df$odds[i] <- 150 + (i - 4) * 50
   }
 
-  # loop and fill profit data in e_profit_df
-  for (i in 1:(odds_looped)) {
-    for (bonus_bets in 0:5) {
-      e_profit_df[i, bonus_bets + 2] <- wynnbet_bonus_only(
   # column names for e_profit_df
-  # colnames vector
   e_profit_df_colnames_vector <- rep(0, 7)
   e_profit_df_colnames_vector[1] <- "odds"
   for (i in 0:5) {
@@ -97,7 +92,8 @@ odds_ev_scatter_plot <- function(n = 1000) {
     for (bonus_bets in 0:5) {
       e_profit_df[i, bonus_bets + 2] <- wynnbet_bonus_only_profit(
         bonus_odds = e_profit_df$odds[i],
-        bonus_bets = bonus_bets, n = n
+        bonus_bets = bonus_bets,
+        n = n
       )
     }
     print(
@@ -109,9 +105,6 @@ odds_ev_scatter_plot <- function(n = 1000) {
   }
 
   # plot the data
-    # print(paste("odds completed",e_profit_df$odds[i]))
-  }
-
   # create the plot
   ev_scatter_plot <- ggplot(
     e_profit_df,
@@ -149,14 +142,15 @@ odds_ev_scatter_plot <- function(n = 1000) {
     ylim(0, max(e_profit_df[, 2:7])) +
     ylab("Expected Profit ($)") +
 
-# LOOP THIS
+    # LOOP THIS
     # floor lines and labels for each strategy
     geom_hline(
       aes(yintercept = 1050),
       col = "gray41",
       linetype = "dashed",
       size = .8,
-      alpha = .9) +
+      alpha = .9
+    ) +
     annotate(
       geom = "text",
       label = " \nMin profit (0 bet, 5 converted): $1050",
@@ -164,9 +158,10 @@ odds_ev_scatter_plot <- function(n = 1000) {
       y = 1050,
       hjust = "left",
       color = "gray41",
-      size = 3) +
-    geom_hline(aes(yintercept = 1050),col = "gray41",linetype = "dashed",size = .8, alpha = .9) +
-    annotate(geom = "text",label = " \nMin profit (0 bet, 5 converted): $1050",x = 1550,y = 1050,hjust = "left",color = "gray41",size = 3) +
+      size = 3
+    ) +
+    geom_hline(aes(yintercept = 1050), col = "gray41", linetype = "dashed", size = .8, alpha = .9) +
+    annotate(geom = "text", label = " \nMin profit (0 bet, 5 converted): $1050", x = 1550, y = 1050, hjust = "left", color = "gray41", size = 3) +
     geom_hline(aes(yintercept = 840), col = "gray41", linetype = "dashed", size = .8, alpha = .9) +
     annotate(geom = "text", label = "Min profit (1 bet, 4 converted): $840\n ", x = 1550, y = 840, hjust = "left", color = "gray41", size = 3) +
     geom_hline(aes(yintercept = 630), col = "gray41", linetype = "dashed", size = .8, alpha = .9) +
