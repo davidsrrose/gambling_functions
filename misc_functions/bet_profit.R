@@ -12,7 +12,10 @@
 bet_profit <- function(stake,
                        odds,
                        fair_win_p) {
+
+  # initialize variables
   bet_profit <- 0
+
   # make the bet - and fill bet profit, updated bankroll value fields
   if (runif(1) < fair_win_p) {
     # win bet, set profit
