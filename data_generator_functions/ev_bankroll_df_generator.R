@@ -50,16 +50,12 @@ ev_bankroll_df_generator <- function(bets = 1000,
       kelly_multiplier
     )
 
-    # make the bet - and fill bet profit, updated bankroll value fields
-    if (runif(1) < ev_bankroll_df$fair_win_p[bet_row]) {
-      # win bet, set profit
-      ev_bankroll_df$bet_profit[bet_row] <-
-        ev_bankroll_df$stake[bet_row] *
-          payout_fraction(ev_bankroll_df$odds[bet_row])
-    } else {
-      # lose bet, set profit
-      ev_bankroll_df$bet_profit[bet_row] <- -ev_bankroll_df$stake[bet_row]
-    }
+    # fill profit
+    ev_bankroll_df$bet_profit <- bet_profit(
+      ev_bankroll_df$stake[bet_row],
+      ev_bankroll_df$odds[bet_row],
+      ev_bankroll_df$fair_win_p[bet_row]
+    )
 
     # set updated bankroll value
     ev_bankroll_df$post_bet_bankroll[bet_row] <-
