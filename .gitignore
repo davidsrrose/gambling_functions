@@ -4,7 +4,7 @@
 
 #plot/visualization output files
 .png
-
+.pdf
 # Session Data files
 .RData
 
