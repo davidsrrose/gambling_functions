@@ -22,7 +22,7 @@ wynnbet_static_money_gram <- function(n = 10000,
   )
   # simulation n attempts of strategy and record profits to profit_vector
   for (i in 1:n) {
-    profit_vector[i] <- wynnbet_static(strategy)
+    profit_vector[i] <- wynnbet_static_profit(strategy)
   }
 
   # because rounding errors were making the graphs bad
