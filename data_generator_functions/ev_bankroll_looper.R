@@ -17,6 +17,14 @@ ev_bankroll_looper <- function(simulations = 1000,
                                bankroll_start = 1000,
                                kelly_multiplier = 1) {
 
+  # add progress bar
+  progress_bar <- txtProgressBar(
+    min = 0,
+    max = simulations,
+    style = 1,
+    char = "="
+  )
+
   # initialize variables
   # bankroll growth vectors dataframe
   ev_bankroll_simulations_df <<- data.frame(
@@ -28,7 +36,7 @@ ev_bankroll_looper <- function(simulations = 1000,
   )
 
   # temporary loop dataframe for each bankroll df generated in loop
-  # 6 columns based on outpud of ev_bankroll_df_generator
+  # 6 columns based on output of ev_bankroll_df_generator
   ev_bankroll_df <- matrix(0, nrow = bets_per_simulation, ncol = 6)
 
   # loop for #of simualtions
@@ -41,9 +49,12 @@ ev_bankroll_looper <- function(simulations = 1000,
       kelly_multiplier = kelly_multiplier
     )
     # store first column bankroll growth
-    ev_bankroll_simulations_df[, i] <- ev_bankroll_df$bankroll
+    ev_bankroll_simulations_df[, i] <<- ev_bankroll_df$bankroll
 
-    # pull first column and then
+    # update progress bar
+    setTxtProgressBar(progress_bar, value = i)
   }
+  # close progress bar
+  close(progress_bar)
   return(ev_bankroll_simulations_df)
 }
