@@ -2,6 +2,9 @@
 .Rhistory
 .Rapp.history
 
+#plot/visualization output files
+.png
+
 # Session Data files
 .RData
 
