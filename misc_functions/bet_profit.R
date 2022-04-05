@@ -1,4 +1,4 @@
-# returns the bankroll fraction to bet based on simple kelly criterion
+# returns bet profit given stake, odds, fair in p
 
 # inputs
 
