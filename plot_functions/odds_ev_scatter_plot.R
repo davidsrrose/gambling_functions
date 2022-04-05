@@ -103,7 +103,7 @@ odds_ev_scatter_plot <- function(n = 1000) {
       )
     )
   }
-
+  print(e_profit_df)
   # plot the data
   # create the plot
   ev_scatter_plot <- ggplot(
